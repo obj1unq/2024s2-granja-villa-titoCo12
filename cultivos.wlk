@@ -1,39 +1,40 @@
 import wollok.game.*
-import hector.*
+
 
 
 class Cultivo {
-	method position() {return game.at(1,1)}
+	const property position = game.at(1,1)
+	const property tipo = Cultivo
+	method image() {return null}
 
 }
 
 
-class Maiz  {
-	const property position = game.at(1,1)
+class Maiz inherits Cultivo(){
 
-	method image() {
+	override method image() {
 		// TODO: hacer que devuelva la imagen que corresponde
 		return "corn_baby.png"
 	}
 
-	method sembrarseUnoEn(posicion) {
-		const maizNuevo = new Maiz(position = posicion)
-		game.addVisual(maizNuevo)
-	}
-
 }
 
 
-class Trigo inherits Cultivo {
-	method image() {
+class Trigo inherits Cultivo(){
+	const property etapaEvol = 0
+
+	override method image() {
 		// TODO: hacer que devuelva la imagen que corresponde
 		return "wheat_0.png"
 	}
+	
 }
 
-class Tomaco inherits Cultivo {
-	method image() {
+class Tomaco inherits Cultivo(){
+
+	override method image() {
 		// TODO: hacer que devuelva la imagen que corresponde
 		return "tomaco_baby.png"
 	}
+
 }
