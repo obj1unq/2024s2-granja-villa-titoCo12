@@ -12,7 +12,12 @@ program farmville {
 	//  VISUALES
  	game.addVisualCharacter(hector)
  	game.addVisual(new Maiz()) // Se agrega a modo de prueba
- 	
+
+	// TECLAS 
+	keyboard.m().onPressDo({hector.sembrar(Maiz)})
+	keyboard.t().onPressDo({hector.sembrar(Trigo)})
+	keyboard.o().onPressDo({hector.sembrar(Tomaco)})
+
  	//  COMIENZA
 	game.start()
 }
