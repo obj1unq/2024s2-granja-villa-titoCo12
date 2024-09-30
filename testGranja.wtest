@@ -3,7 +3,7 @@ import game.*
 
 describe "group of tests for pepita" {
 
-  test "t" {
+  test "test" {
 
     
   }

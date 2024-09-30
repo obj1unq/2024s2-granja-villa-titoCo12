@@ -44,6 +44,6 @@ class Tomaco inherits Cultivo(image="tomaco_baby.png"){
 
 	method regado() {
 		if (arriba.puedeSubir(position)) {self.position(arriba.sigPosicion(position))}
-		else {}
+		else {self.position(game.at(position.x(),0))}
 	}
 }

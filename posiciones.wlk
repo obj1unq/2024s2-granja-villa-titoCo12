@@ -9,13 +9,9 @@ object arriba {
     }
 
     method puedeSubir(posicion) {
-        return if (self.posicionEstaEnBordeSuperior()) {false}
-        else {true}
+        return (self.sigPosicion(posicion).y() < game.height())
     }
 
-    method posicionEstaEnBordeSuperior() {
-        
-    }
 }
 
 object izquierda {
