@@ -702,3 +702,6 @@
 {"level":"info","message":"⌛ Validating cultivos.wlk","timeElapsed":102,"timestamp":"2024-09-30T03:21:27.550Z"}
 {"level":"info","message":"⌛ Building environment","timeElapsed":232,"timestamp":"2024-09-30T03:21:35.993Z"}
 {"level":"info","message":"⌛ Validating game.wpgm","timeElapsed":197,"timestamp":"2024-09-30T03:21:36.198Z"}
+{"level":"info","message":"⌛ Validating game.wpgm","timeElapsed":117,"timestamp":"2024-09-30T03:21:53.652Z"}
+{"level":"info","message":"⌛ Validating cultivos.wlk","timeElapsed":108,"timestamp":"2024-09-30T03:21:53.851Z"}
+{"exitCode":"SIGHUP","level":"info","message":"👾 Game executed game.farmville on c:\\Users\\Joaco\\Desktop\\Prog\\progObjetos1\\2024s2-granja-villa-titoCo12","timeElapsed":94887,"timestamp":"2024-09-30T03:22:05.292Z"}

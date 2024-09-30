@@ -43,8 +43,7 @@ class Trigo inherits Cultivo(image="wheat_0.png"){
 class Tomaco inherits Cultivo(image="tomaco_baby.png"){
 
 	method regado() {
-		//validar que puede subir
-		//o usar if y que en caso contrario aparezca abajo
-		self.position(arriba.sigPosicion(position))
+		if (arriba.puedeSubir(position)) {self.position(arriba.sigPosicion(position))}
+		else {}
 	}
 }

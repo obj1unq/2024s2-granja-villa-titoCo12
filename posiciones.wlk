@@ -7,7 +7,15 @@ object arriba {
     method sigPosicion(position) {
         return position.up(1)
     }
- 
+
+    method puedeSubir(posicion) {
+        return if (self.posicionEstaEnBordeSuperior()) {false}
+        else {true}
+    }
+
+    method posicionEstaEnBordeSuperior() {
+        
+    }
 }
 
 object izquierda {
