@@ -1,11 +1,11 @@
 import wollok.game.*
-
+import posiciones.*
 
 
 class Cultivo {
 
 	const tipo = Cultivo
-	const property position = game.at(1,1)
+	var property position = game.at(1,1)
 	var property image = null
 	method tipo() {return tipo}
 
@@ -43,6 +43,8 @@ class Trigo inherits Cultivo(image="wheat_0.png"){
 class Tomaco inherits Cultivo(image="tomaco_baby.png"){
 
 	method regado() {
-		
+		//validar que puede subir
+		//o usar if y que en caso contrario aparezca abajo
+		self.position(arriba.sigPosicion(position))
 	}
 }
