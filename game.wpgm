@@ -20,17 +20,12 @@ program farmville {
 	keyboard.s().onPressDo({hector.mover(abajo)})
 	keyboard.d().onPressDo({hector.mover(derecha)})
 
-
-
-	//keyboard.m().onPressDo({game.addVisual(new Maiz(position = hector.position()))})
-	//keyboard.t().onPressDo({game.addVisual(new Trigo(position = hector.position()))})
-	//keyboard.o().onPressDo({game.addVisual(new Tomaco(position = hector.position()))})
-
 	keyboard.m().onPressDo({hector.sembrarMaiz()})
 	keyboard.t().onPressDo({hector.sembrarTrigo()})
 	keyboard.o().onPressDo({hector.sembrarTomaco()})
 
-	//keyboard.r().onPressDo({hector.regar()})
- 	//  COMIENZA
+	keyboard.r().onPressDo({hector.regar()})
+ 	
+	//  COMIENZA
 	game.start()
 }

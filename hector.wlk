@@ -6,19 +6,23 @@ object loca {}
 object hector {
 	var property position = game.center()
 	const property image = "player.png"
-	const property cultivos = #{Maiz,Trigo,Tomaco}
 
+
+//  REGAR     -----------------------------------------------------
 
 	method regar() {
 		const colisiones = game.colliders(self)
 
 		self.validarRegar(colisiones) 
-		colisiones.head().regado()
+		colisiones.forEach({colision => colision.regado()})
 	}
 
 	method validarRegar(colisiones) {
 		if (colisiones.isEmpty()) {self.error("no hay un cultivo para regar")}
 	}
+
+//  SEMBRAR     -----------------------------------------------------
+
 
 	method sembrarMaiz() {
 		game.addVisual(new Maiz(position = self.position()))
@@ -33,7 +37,15 @@ object hector {
 		game.addVisual(new Tomaco(position = self.position()))
 	}
 
+//  MOVER     -----------------------------------------------------
+
+
 	 method mover(direccion) {
-	        position = direccion.sigPosicion(position)
+		self.validarMover(direccion)
+	    position = direccion.sigPosicion(position)
+	}
+
+	method validarMover(direccion) {
+		
 	}
 }

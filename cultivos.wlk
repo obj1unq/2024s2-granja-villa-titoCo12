@@ -3,38 +3,46 @@ import wollok.game.*
 
 
 class Cultivo {
+
+	const tipo = Cultivo
 	const property position = game.at(1,1)
-	const property tipo = Cultivo
-	method image() {return null}
+	var property image = null
+	method tipo() {return tipo}
 
 }
 
 
-class Maiz inherits Cultivo(){
+class Maiz inherits Cultivo(image="corn_baby.png"){
 
-	override method image() {
-		// TODO: hacer que devuelva la imagen que corresponde
-		return "corn_baby.png"
+	method regado() {
+		self.image("corn_adult.png")
 	}
-
 }
 
 
-class Trigo inherits Cultivo(){
-	const property etapaEvol = 0
-
-	override method image() {
-		// TODO: hacer que devuelva la imagen que corresponde
-		return "wheat_0.png"
-	}
+class Trigo inherits Cultivo(image="wheat_0.png"){
+	var property etapaEvol = 0
 	
-}
+	
 
-class Tomaco inherits Cultivo(){
-
-	override method image() {
-		// TODO: hacer que devuelva la imagen que corresponde
-		return "tomaco_baby.png"
+	method evolucionar() {
+		if (etapaEvol < 3) {etapaEvol += 1}
+		else {self.etapaEvol(0)}
 	}
 
+	method actualizarImagen(etapa) {
+		self.image("wheat_" + etapa + ".png")
+	}
+
+	method regado() {
+		self.evolucionar()
+		self.actualizarImagen(etapaEvol)	
+	}
+}
+
+class Tomaco inherits Cultivo(image="tomaco_baby.png"){
+
+	method regado() {
+		
+	}
 }
