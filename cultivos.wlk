@@ -4,26 +4,41 @@ import posiciones.*
 
 class Cultivo {
 
-	const tipo = Cultivo
 	var property position = game.at(1,1)
 	var property image = null
-	method tipo() {return tipo}
+	
+	method tipo() {return "Cultivo"}
+
+	method serCosechado() {
+		game.removeVisual(self)
+	}
 
 }
 
 
 class Maiz inherits Cultivo(image="corn_baby.png"){
 
+	method valor() {return 150}
+
+	method puedeSerCosechado() {
+		return (self.image() == "corn_adult.png")
+	}
+
 	method regado() {
 		self.image("corn_adult.png")
 	}
+
 }
 
 
 class Trigo inherits Cultivo(image="wheat_0.png"){
 	var property etapaEvol = 0
 	
-	
+	method valor() {return (etapaEvol - 1) * 100}
+
+	method puedeSerCosechado() {
+		return (etapaEvol >= 2)
+	}
 
 	method evolucionar() {
 		if (etapaEvol < 3) {etapaEvol += 1}
@@ -41,6 +56,14 @@ class Trigo inherits Cultivo(image="wheat_0.png"){
 }
 
 class Tomaco inherits Cultivo(image="tomaco_baby.png"){
+
+	method valor() {return 80}
+
+	method nombre() {return "Tomaco"}
+
+	method puedeSerCosechado() {
+		return (true)
+	}
 
 	method regado() {
 		if (arriba.puedeSubir(position)) {self.position(arriba.sigPosicion(position))}

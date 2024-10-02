@@ -2,6 +2,7 @@ import wollok.game.*
 import hector.*
 import cultivos.*
 import posiciones.*
+import mercados.*
 
 program farmville {
 	//  CONFIG	
@@ -11,9 +12,10 @@ program farmville {
 	game.ground("ground.png")
 
 	//  VISUALES
+	game.addVisual(mercadoFelipe)
+	game.addVisual(mercadoRichardElUno)
  	game.addVisual(hector)
- 	//game.addVisual(new Maiz()) // Se agrega a modo de prueba
-
+	
 	// TECLAS 
 	keyboard.w().onPressDo({hector.mover(arriba)})
 	keyboard.a().onPressDo({hector.mover(izquierda)})
@@ -25,7 +27,11 @@ program farmville {
 	keyboard.o().onPressDo({hector.sembrarTomaco()})
 
 	keyboard.r().onPressDo({hector.regar()})
- 	
+ 	keyboard.c().onPressDo({hector.cosechar()})
+	keyboard.v().onPressDo({hector.venderTodo()})
+	//La tecla A está ocupada - para colocar aspersores se presiona la B
+	keyboard.b().onPressDo({hector.colocarAspersor()})
+
 	//  COMIENZA
 	game.start()
 }

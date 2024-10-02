@@ -1,11 +1,25 @@
-
+import hector.*
+import posiciones.*
+import cultivos.*
 import game.*
 
-describe "group of tests for pepita" {
+describe "granja villa" {
 
-  test "test" {
+  test "hector siembra, riega y cosecha maiz y siembra y cosecha tomaco, y vende todo" {
 
+    assert.equals([], hector.plantasCosechadas())
+
+    hector.sembrarMaiz()
+    hector.regar()
+    hector.cosechar()
+    hector.sembrarTomaco()
+    hector.cosechar()
+
+    assert.equals([150,80], hector.plantasCosechadas())
     
+    hector.venderTodo()
+    assert.equals([], hector.plantasCosechadas())
+    assert.equals(230, hector.billetera())
   }
 
 }

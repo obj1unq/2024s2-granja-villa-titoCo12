@@ -9,7 +9,11 @@ object arriba {
     }
 
     method puedeSubir(posicion) {
-        return (self.sigPosicion(posicion).y() < game.height())
+        return (self.sigPosicion(posicion).y() < game.height() and self.sigCeldaEstaVacia(posicion))
+    }
+
+    method sigCeldaEstaVacia(posicion) {
+        return (game.getObjectsIn(self.sigPosicion(posicion)).isEmpty())
     }
 
 }
