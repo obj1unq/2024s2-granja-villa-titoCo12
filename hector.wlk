@@ -6,126 +6,132 @@ import mercados.*
 class Aspersor {
 	var property  position = null
 	method image() {return "aspersor.png"}
-	method tipo() {return "Aspersor"}
 
-	method regarAlrededor(plantas) {
-		const plantasCerca = plantas.filter({planta => self.position().distance(planta.position()) < 2})
-		plantasCerca.forEach({plantaCerca => plantaCerca.regado()})
+	method regarAlrededor() {
+		const cultivosCerca = granja.cultivos().filter({planta => self.position().distance(planta.position()) < 2})
+		cultivosCerca.forEach({cultivoCerca => cultivoCerca.regado()})
 	}
 
-	method regado() {}
+}
+
+object granja {
+	const property cultivos = #{} 
+	const property mercados = #{}
+
+	method agregarCultivo(cultivo) {
+		game.addVisual(cultivo)
+		cultivos.add(cultivo)
+	}
+
+	method eliminarCultivo(cultivo) {
+		cultivos.remove(cultivo)
+		cultivo.serCosechado()
+	} 
 
 }
 
 object hector {
-	const property granja = #{} 
-	var billetera = 0
+	var property billetera = 0
 	var property position = game.at(4,5)
 	const property image = "player.png"
-	const property tipo = self
-	const property plantasCosechadas = []
+	const property inventario = []
 
-	method billetera() {return billetera}
 
 //  REGAR     -----------------------------------------------------
 
+
 	method regar() {
-		self.validarHayCultivo()
-		game.uniqueCollider(self).regado()
+		const cultivosAca = granja.cultivos().filter({cultivo => cultivo.position() == position})
+		cultivosAca.forEach({cultivo => cultivo.regado()})
 	}
 
-	method validarHayCultivo() {
-		const colisiones = game.colliders(self)
-		if (colisiones.isEmpty()) {self.error("no hay un cultivo aca")}
-		else if (game.uniqueCollider(self).tipo() != "Cultivo") {self.error("no hay un cultivo aca")}
-	}
 
 //  SEMBRAR     -----------------------------------------------------
 
 
 	method sembrarMaiz() {
-		self.validarSembrar()
+		self.validarColocar()
 		const nuevoMaiz = new Maiz(position = self.position())
-		game.addVisual(nuevoMaiz)
-		granja.add(nuevoMaiz)
+		granja.agregarCultivo(nuevoMaiz)
 	}
 
 	method sembrarTrigo() {
-		self.validarSembrar()
+		self.validarColocar()
 		const nuevoTrigo = new Trigo(position = self.position())
-		game.addVisual(nuevoTrigo)
-		granja.add(nuevoTrigo)
+		granja.agregarCultivo(nuevoTrigo)
 	}
 
 	method sembrarTomaco() {
-		self.validarSembrar()
+		self.validarColocar()
 		const nuevoTomaco = new Tomaco(position = self.position())
-		game.addVisual(nuevoTomaco)
-		granja.add(nuevoTomaco)
+		granja.agregarCultivo(nuevoTomaco)
 	}
 
-	method validarSembrar() {
-		const colisiones = game.colliders(self)
-		if (not(colisiones.isEmpty())) {self.error("no puedo sembrar aca")}
+	method validarColocar() {
+		if (not(game.colliders(self).isEmpty())) {self.error("no puedo colocar aca")}
 	}
+
 
 //  MOVER     -------------------------------------------------------
 
 
 	 method mover(direccion) {
-		self.validarMover(direccion)
 	    position = direccion.sigPosicion(position)
 	}
 
-	method validarMover(direccion) {
-		
-	}
 
 // COSECHAR ---------------------------------------------------------
+ 
+	// Me tome la libertad de que, al cosechar, hector guarde los valores de lo cosechado en una lista
+	// ya que cada tipo de cultivo tiene un precio diferente, por lo que se distingue :
+	// 150 = maíz
+	// 100 = trigo etapa 2
+	// 200 = trigo etapa 3
+	// 80  = tomaco
 
-
-	// una alternativa que pense era que cada cultivo sepa su nombre (un string),
-	// yo agrego eso a la lista y que despues el mercado sepa a cuanto equivale cada string?   
 	method cosechar() {
-		self.validarHayCultivo()
-		self.validarPuedeSerCosechado()
-		plantasCosechadas.add(game.uniqueCollider(self).valor())
-		granja.remove(game.uniqueCollider(self))
-		game.uniqueCollider(self).serCosechado()
+		const cultivosCosechablesAca = granja.cultivos().filter({cultivo => self.estaYCosechable(cultivo)})
+		cultivosCosechablesAca.forEach({cultivo => self.cosecharYSacar(cultivo)})
 	}
 
-	method validarPuedeSerCosechado() {
-		if (not(game.uniqueCollider(self).puedeSerCosechado())) 
-			{self.error("no está listo para ser cosechado")
-		}
+	method estaYCosechable(cultivo) {
+		return (cultivo.position() == position) and (cultivo.puedeSerCosechado())
 	}
+
+	method cosecharYSacar(cultivo) {
+		inventario.add(cultivo.valor())
+		granja.eliminarCultivo(cultivo)
+	}
+
 
 // VENDER TODO -------------------------------------------------------
 
-	method venderTodo() {
-		self.validarVender()
 
-
-		billetera += plantasCosechadas.sum()
-		plantasCosechadas.clear()
+	method venderEnMercado() {
+		const mercadosAca = granja.mercados().filter({mercado => mercado.position() == position})
+		mercadosAca.forEach({mercadoAca => self.venderleA(mercadoAca)})
 	}
 
-	method validarVender() {
-		const colisiones = game.colliders(self)
-		if (colisiones.isEmpty()) {self.error("no estoy en mercado")}
-		else if (game.uniqueCollider(self).tipo() != "Mercado") {self.error("no estoy en mercado")}
+	method venderleA(mercado) {
+		mercado.comprar(inventario)
+	}
+
+	method recibirPago(precio) {
+		billetera += precio
+	}
+
+	method soltarLoVendido(precio) {
+		inventario.remove(precio)
 	}
 
 // COLOCAR ASPERSOR --------------------------------------------------
 
+
 	method colocarAspersor() {
-		self.validarSembrar()
+		self.validarColocar()
 		const aspersorNuevo = new Aspersor(position = self.position())
 		game.addVisual(aspersorNuevo)
-		game.onTick(1000, "aspersorNuevo".identity(),{aspersorNuevo.regarAlrededor(granja)})
-
+		game.onTick(1000, "aspersorNuevo".identity(),{aspersorNuevo.regarAlrededor()})
 	}
-
-	method regado() {}
 
 }

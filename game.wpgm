@@ -11,25 +11,36 @@ program farmville {
 	game.width(10)
 	game.ground("ground.png")
 
+
 	//  VISUALES
-	game.addVisual(mercadoFelipe)
-	game.addVisual(mercadoRichardElUno)
+
+/*
+	//mercados
+	managerMercados.agregarMercadoEnConDinero(game.at(2,7),500)  // el de la izquierda
+	managerMercados.agregarMercadoEnConDinero(game.at(7,7),1000) // el de la derecha
+*/
+
+	//hector
  	game.addVisual(hector)
 	
 	// TECLAS 
+	//mover
 	keyboard.w().onPressDo({hector.mover(arriba)})
 	keyboard.a().onPressDo({hector.mover(izquierda)})
 	keyboard.s().onPressDo({hector.mover(abajo)})
 	keyboard.d().onPressDo({hector.mover(derecha)})
-
+	//sembrar
 	keyboard.m().onPressDo({hector.sembrarMaiz()})
 	keyboard.t().onPressDo({hector.sembrarTrigo()})
 	keyboard.o().onPressDo({hector.sembrarTomaco()})
-
+	//regar
 	keyboard.r().onPressDo({hector.regar()})
+	//cosechar
  	keyboard.c().onPressDo({hector.cosechar()})
-	keyboard.v().onPressDo({hector.venderTodo()})
-	//La tecla A está ocupada - para colocar aspersores se presiona la B
+	//vender
+	keyboard.v().onPressDo({hector.venderEnMercado()})
+	//aspersor
+	//La tecla 'A' está ocupada - para colocar aspersores se presiona la 'B'
 	keyboard.b().onPressDo({hector.colocarAspersor()})
 
 	//  COMIENZA
