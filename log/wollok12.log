@@ -950,3 +950,5 @@
 {"level":"info","message":"⌛ Building environment","timeElapsed":116,"timestamp":"2024-10-03T17:06:41.580Z"}
 {"level":"info","message":"⌛ Validating testGranja.wtest","timeElapsed":109,"timestamp":"2024-10-03T17:06:41.713Z"}
 {"failures":[],"level":"info","message":"🧪 Test runner executed on c:\\Users\\Joaco\\Desktop\\Prog\\progObjetos1\\2024s2-granja-villa-titoCo12","result":{"failed":0,"ok":1},"timeElapsed":504,"timestamp":"2024-10-03T17:06:46.409Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":289,"timestamp":"2024-10-03T17:07:17.229Z"}
+{"level":"info","message":"⌛ Validating hector.wlk","timeElapsed":175,"timestamp":"2024-10-03T17:07:17.405Z"}
