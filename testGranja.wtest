@@ -1,9 +1,124 @@
-import example.pepita
+import hector.*
+import posiciones.*
+import cultivos.*
+import mercados.*
+import wollok.game.*
 
-describe "group of tests for pepita" {
+describe "granja villa" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  method initialize() {
+    game.height(10)
+	  game.width(10)
+  }
+
+  test "Hector planta, riega y cosecha maiz sin problema" {
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.that(hector.inventario().isEmpty())
+
+    hector.sembrarMaiz()
+
+    assert.equals(1, granja.cultivos().size())
+
+    hector.regar()
+    hector.cosechar()
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.equals([150], hector.inventario())
+
+  }
+
+  test "Hector planta, riega y cosecha trigo sin problema" {
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.that(hector.inventario().isEmpty())
+
+    hector.sembrarTrigo()
+
+    assert.equals(1, granja.cultivos().size())
+
+    hector.regar()
+    hector.regar()
+    hector.cosechar()
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.equals([100], hector.inventario())
+
+    hector.sembrarTrigo()
+    hector.regar()
+    hector.regar()
+    hector.regar()
+    hector.cosechar()
+
+    assert.equals([100,200], hector.inventario())
+  }
+
+   test "Hector planta, riega y cosecha tomaco sin problema" {
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.that(hector.inventario().isEmpty())
+
+    hector.sembrarTomaco()
+
+    assert.equals(1, granja.cultivos().size())
+
+    hector.regar()
+    hector.cosechar()
+    //el tomaco se va arriba, por lo tanto no cosecho nada
+    assert.equals(1, granja.cultivos().size())
+    assert.equals([], hector.inventario())
+
+    hector.mover(arriba)
+    hector.cosechar()
+
+    assert.that(granja.cultivos().isEmpty())
+    assert.equals([80], hector.inventario())
+
+  }
+
+  test "hector planta maíz y lo vende sin problema en un mercado" {
+
+    assert.equals(game.at(4,5),hector.position())
+    managerMercados.agregarMercadoEnConDinero(game.at(5,5), 300)
+
+    hector.sembrarMaiz()
+    hector.regar()
+    hector.cosechar()
+
+    hector.mover(derecha)
+
+    assert.equals(300,game.uniqueCollider(hector).presupuesto())
+    assert.that(game.uniqueCollider(hector).almacen().isEmpty())
+    assert.equals([150],hector.inventario())
+    assert.equals(0,hector.billetera())
+
+    hector.venderEnMercado()
+
+    assert.equals(150,game.uniqueCollider(hector).presupuesto())
+    assert.equals([150],game.uniqueCollider(hector).almacen())
+    assert.that(hector.inventario().isEmpty())
+    assert.equals(150,hector.billetera())
+
+  }
+
+  test "hector planta maíz pero no lo puede vender porque el mercado carece de presupuesto :(" {
+
+    assert.equals(game.at(4,5),hector.position())
+    managerMercados.agregarMercadoEnConDinero(game.at(5,5), 100)
+
+    hector.sembrarMaiz()
+    hector.regar()
+    hector.cosechar()
+
+    hector.mover(derecha)
+
+    assert.equals(100,game.uniqueCollider(hector).presupuesto())
+    assert.that(game.uniqueCollider(hector).almacen().isEmpty())
+    assert.equals([150],hector.inventario())
+    assert.equals(0,hector.billetera())
+
+    assert.throwsExceptionWithMessage("no tenemos suficientes monedas",{hector.venderEnMercado()})
+
   }
 
 }
